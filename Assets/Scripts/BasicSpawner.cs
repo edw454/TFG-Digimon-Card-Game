@@ -1,15 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using Fusion;
 using Fusion.Sockets;
+using System.Collections;
+using System.Linq;
 
 public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 {
-
+    public static BasicSpawner Instance;
     [SerializeField] private GameObject fieldPrefab;
+    private bool Iwin = false;
     private Canvas canvas;
     #region Network properties 
     private NetworkRunner runner;
@@ -21,14 +25,13 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     private void Awake()
     {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
         if (canvas == null)
             canvas = FindObjectOfType<Canvas>();
     }
-
-    private void Update()
-   {
-        
-   }
 
    public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
    {
@@ -59,20 +62,17 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
    public void OnInput(NetworkRunner runner, NetworkInput input) {}
 
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
-   public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }
-   public void OnConnectedToServer(NetworkRunner runner) { }
-   public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason) { }
-   public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason) { }
-   public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }
-   public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList) { }
-   public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data) { }
-   public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken) { }
-   public void OnSceneLoadDone(NetworkRunner runner) { }
-   public void OnSceneLoadStart(NetworkRunner runner) { }
-   public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
-   public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
-   public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data) { }
-   public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress) { }
+   public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
+    {
+        if (Iwin)
+        {
+            SceneManager.LoadScene("WinnersScene");
+        }
+        else
+        {
+            SceneManager.LoadScene("LosersScene");
+        }
+    }
 
    async void StartGame(GameMode mode)
    {
@@ -138,4 +138,72 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         }
     }
 
+    public void CleanupRunner()
+    {
+        _spawnedCharacters.Clear();
+        runner = null;
+    }
+
+    public void ReturnToLobby(bool IsHostWinner)
+    {
+        GameManager gameManager = FindObjectOfType<GameManager>();
+        if (gameManager != null)
+        {
+            gameManager.RPC_EndGame2(IsHostWinner);
+        }
+    }
+
+    public void ReturnToLobby2(bool IsHostWinner)
+    {
+        if (runner.IsServer) 
+        {
+            StartCoroutine(EndGameSequence(IsHostWinner));
+        }
+        else
+        {
+            if (!IsHostWinner)
+            {
+                Iwin = true;
+            }
+            runner.Shutdown();
+        }
+
+        Debug.Log(Iwin);
+    }
+
+    private IEnumerator EndGameSequence(bool IsHostWinner)
+    {
+        yield return new WaitForSeconds(3f);
+
+
+        if (IsHostWinner)
+        {
+            Iwin = true;
+        }
+        runner.Shutdown();
+    }
+
+    private IEnumerator ShutdownHost()
+    {
+        yield return new WaitForSeconds(1f); 
+        if (runner != null)
+        {
+            runner.Shutdown(destroyGameObject: false);
+            Destroy(runner);
+        }
+    }
+
+    public void OnConnectedToServer(NetworkRunner runner) { }
+    public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason) { }
+    public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason) { }
+    public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }
+    public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList) { }
+    public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data) { }
+    public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken) { }
+    public void OnSceneLoadDone(NetworkRunner runner) { }
+    public void OnSceneLoadStart(NetworkRunner runner) { }
+    public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
+    public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
+    public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data) { }
+    public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress) { }
 }

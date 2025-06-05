@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 using Fusion.Sockets;
+using UnityEngine.SceneManagement;
 using ExitGames.Client.Photon.StructWrapping;
 using TMPro.Examples;
+using System;
 
 public class GameManager : NetworkBehaviour
 {
@@ -50,7 +52,7 @@ public class GameManager : NetworkBehaviour
         if (Runner.IsServer)
         {
             // Asigna aleatoriamente al iniciar (solo el host)
-            TurnHost = (Random.Range(0, 2) == 0); // 50% true/false
+            TurnHost = UnityEngine.Random.Range(0, 2) == 0; // 50% true/false
             Memory = 0;
             AttackedCardIndex = 0;
             AttackingCardIndex = 0;
@@ -99,7 +101,6 @@ public class GameManager : NetworkBehaviour
         }
     }
     #endregion
-
 
     #region Turn and memory
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
@@ -269,6 +270,20 @@ public class GameManager : NetworkBehaviour
             }
         }
     }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_NotifyEndGame(bool IsHostWinner)
+    {
+        EnemySlotCard.InPlay = false;
+        BasicSpawner.Instance.ReturnToLobby(IsHostWinner);
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void RPC_EndGame2(bool IsHostWinner)
+    {
+        BasicSpawner.Instance.ReturnToLobby2(IsHostWinner);
+    }
+
     #endregion
 
     #region  Battle in Field
@@ -339,7 +354,6 @@ public class GameManager : NetworkBehaviour
         }
         AttackedCardIndex = 0;
         AttackingCardIndex = 0;
-        //RPC_LocalCardDestroy();
     }
     #endregion
 }

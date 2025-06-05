@@ -63,25 +63,20 @@ public class DeckManager : MonoBehaviour
     }
     void InicializarDeck()
     {
-        /*for (int i = 0; i < 50; i++)
-        {
-           deck.Add(new Cards("BT1-010", "Agumon", 1000, 3));
-        }*/
-        // Cartas con sus respectivas cantidades
-        AgregarCarta("BT1-009", "Monodramon", 3000, 2, 4);
-        AgregarCarta("BT1-013", "Muchomon", 5000, 3, 4);
-        AgregarCarta("BT1-014", "Kokatorimon", 4000, 3, 4);
-        AgregarCarta("BT1-019", "DarkTyrannomon", 6000, 6, 4);
-        AgregarCarta("BT1-020", "Groundramon", 6000, 5, 4);
-        AgregarCarta("BT1-026", "Breakdramon", 11000, 12, 4);
-        AgregarCarta("BT1-024", "MetalTyrannomon", 10000, 7, 4);
+        AddDigimon("BT1-009", "Monodramon", 2, CardColor.red, 3000, 3, 4);
+        AddDigimon("BT1-013", "Muchomon", 3, CardColor.red, 5000, 3, 4);
+        AddDigimon("BT1-014", "Kokatorimon", 3, CardColor.red, 4000, 4, 4);
+        AddDigimon("BT1-019", "DarkTyrannomon", 6, CardColor.red, 6000, 4, 4);
+        AddDigimon("BT1-020", "Groundramon", 5, CardColor.red, 6000, 5, 4);
+        AddDigimon("BT1-026", "Breakdramon", 12, CardColor.red, 11000, 5, 4);
+        AddDigimon("BT1-024", "MetalTyrannomon", 7, CardColor.red, 10000, 6, 4);
     }
 
-    void AgregarCarta(string id, string nombre, int poder, int costo, int cantidad)
+    void AddDigimon(string id, string nombre, int costo, CardColor color,int poder, int level, int cantidad)
     {
         for (int i = 0; i < cantidad; i++)
         {
-            deck.Add(new Cards(id, nombre, poder, costo));
+            deck.Add(new Digimon(id, nombre, costo, color, poder, level));
         }
     }
 
@@ -102,16 +97,13 @@ public class DeckManager : MonoBehaviour
     {
         for(int i = 0;i < 5;i++)
         {
-            //if (deck.Count == 0) break; 
             Cards nextCard = deck[0];
             deck.RemoveAt(0);
 
-            // 2) Instanciar el prefab bajo 'hand'
-            GameObject go = Instantiate(CardPrefab, hand);  // :contentReference[oaicite:0]{index=0}
+            GameObject go = Instantiate(CardPrefab, hand); 
             go.transform.localScale = Vector3.one;
 
-            // 3) Obtener el componente CardView y pasarle los datos
-            CardsActions view = go.GetComponent<CardsActions>();    // :contentReference[oaicite:1]{index=1}
+            CardsActions view = go.GetComponent<CardsActions>();   
             if (view != null)
                 view.SetData(nextCard);
         }

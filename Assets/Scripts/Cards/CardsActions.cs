@@ -57,8 +57,6 @@ public class CardsActions : MonoBehaviour, IBeginDragHandler,
                 Debug.LogWarning("No se encontró el panel 'Hand' en la escena.");
             }
         }
-        //Who is playing
-        //WhosPlaying();
     }
 
     #region Move cards
@@ -93,14 +91,4 @@ public class CardsActions : MonoBehaviour, IBeginDragHandler,
         }
     }
     #endregion
-
-    public void SetCardData(CardData data)
-    {
-        // Convertir el byte[] a string utilizando la conversión.
-        cardData.Code = (string)(NetworkString<_16>)data.Code.ToString();
-        cardData.NameCard = (string)(NetworkString<_16>)data.NameByte.ToString();
-        cardData.Dp = data.Dp;
-        cardData.Cost = data.Cost;
-        // Aquí puedes actualizar la UI si es necesario.
-    }
 }

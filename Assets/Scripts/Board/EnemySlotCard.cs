@@ -14,11 +14,15 @@ public class EnemySlotCard : MonoBehaviour, IPointerDownHandler
     private GameObject EnemyCard;
     private CardData currentCardData;
     private static bool selectEnemy;
+    private static bool inPlay;
 
     public static bool SelectEnemy {  get { return selectEnemy; } set { selectEnemy = value; } }
 
+    public static bool InPlay { get { return inPlay; } set { inPlay = value; } }
+
     private void Start()
     {
+        inPlay = true;
         selectEnemy = false;
         currentCardData = default(CardData);
     }
@@ -50,19 +54,22 @@ public class EnemySlotCard : MonoBehaviour, IPointerDownHandler
     // Update is called once per frame
     void Update()
     {
-        if (gameManager == null)
-            InitializeGameManager();
-        else 
+        if (inPlay)
         {
-            if (IsCardDataDefault(currentCardData))
-            {
-                PlayEnemyCard();
-            }
+            if (gameManager == null)
+                InitializeGameManager();
             else
             {
-                DeleteEnemyCard();
+                if (IsCardDataDefault(currentCardData))
+                {
+                    PlayEnemyCard();
+                }
+                else
+                {
+                    DeleteEnemyCard();
+                }
             }
-        }   
+        }  
     }
 
     public void PlayEnemyCard()

@@ -166,31 +166,6 @@ public class SlotCard : MonoBehaviour, IDropHandler, IPointerDownHandler
         currentButton = null;
     }
 
-    //private IEnumerator MonitorCardExistence()
-    //{
-    //    int arrayIndex = numSlot - 1;
-    //    bool isServer = gameManager.Runner.IsServer;
-
-    //    while (true)
-    //    {
-    //        // Obtener datos actualizados del GameManager
-    //        CardData currentData = isServer
-    //            ? gameManager.HostCards[arrayIndex]
-    //            : gameManager.ClientCards[arrayIndex];
-
-    //        // Verificar si la carta fue eliminada
-    //        if (IsCardDataDefault(currentData) && cardAction != null)
-    //        {
-    //            // Eliminar la carta localmente
-    //            Destroy(cardAction.gameObject);
-    //            cardAction = null;
-    //            playedCardData = default(CardData);
-    //            yield break; // Terminar corrutina
-    //        }
-
-    //        yield return new WaitForSeconds(0.1f); // Revisar cada 0.1 segundos
-    //    }
-    //}
     private IEnumerator MonitorCardExistence()
     {
         int arrayIndex = numSlot - 1;

@@ -31,9 +31,9 @@ public class CardEnemy : MonoBehaviour
         Cards newCardData = new Cards(
         data.Code.ToString(),  // Simplificado
         data.NameByte.ToString(),
-        data.Dp,
-        data.Cost
-    );
+        data.Cost,
+        CardColor.red
+        );
         cardData = newCardData;
     }
 }

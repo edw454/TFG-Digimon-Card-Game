@@ -36,7 +36,7 @@ public class PassAndBlock : MonoBehaviour
 
     private void OnBlockerButton()
     {
-        //En analicis
+        //En analisis
     }
 
     private void OnNullButton()
@@ -46,19 +46,30 @@ public class PassAndBlock : MonoBehaviour
 
     public void SetButtonAction(bool isHostTurn)
     {
-        bool esTurnoLocal = (gameManager.Runner.IsServer && isHostTurn)
+        bool isLocalTurn = (gameManager.Runner.IsServer && isHostTurn)
                          || (!gameManager.Runner.IsServer && !isHostTurn);
 
         // Aplicar color según acción
-        Color targetColor = esTurnoLocal ? passButtonColor : nullButtonColor;
+        Color targetColor = isLocalTurn ? passButtonColor : nullButtonColor;
         Image img = button.GetComponent<Image>();
         img.color = targetColor;
 
         // Configurar listener
         button.onClick.RemoveAllListeners();
-        if (esTurnoLocal)
+        if (isLocalTurn)
+        {
             button.onClick.AddListener(OnPassButton);
+        }
         else
+        {
             button.onClick.AddListener(OnNullButton);
+        }
+
+        Text buttonText = button.GetComponentInChildren<Text>();
+        if (buttonText != null)
+        {
+            buttonText.text = isLocalTurn ? "Pasar Turno" : "Bloqueado";
+        }
+
     }
 }

@@ -19,16 +19,35 @@ public class SecurityButton : MonoBehaviour, IPointerDownHandler
     {
         selectEnemy = false;
     }
-
     public void OnPointerDown(PointerEventData eventData)
     {
         if (gameManager == null)
             InitializeGameManager();
-        if (selectEnemy)
+
+        if (!selectEnemy)
         {
+            if (CheckLastSecurityCard(gameManager.Runner.IsServer))
+            {
+                gameManager.RPC_NotifyEndGame(gameManager.Runner.IsServer);
+                return;
+            }
             gameManager.RPC_SecurityBattle(gameManager.Runner.IsServer);
             EnemySlotCard.SelectEnemy = false;
             selectEnemy = false;
+        }
+    }
+
+    private bool CheckLastSecurityCard(bool isHost)
+    {
+        if (isHost)
+        {
+            CardData lastCard = gameManager.HostSecurity[gameManager.HostSecurity.Length - 1];
+            return lastCard.Equals(default(CardData));
+        }
+        else
+        {
+            CardData lastCard = gameManager.ClientSecurity[gameManager.ClientSecurity.Length - 1];
+            return lastCard.Equals(default(CardData));
         }
     }
 
