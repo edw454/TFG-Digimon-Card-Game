@@ -109,22 +109,54 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         }
     }
 
-   private void OnGUI()
-   {
-       if (runner == null)
-       {
-           if (GUI.Button(new Rect(0, 0, 200, 40), "Host"))
-           {
+    private void OnGUI()
+    {
+        if (runner == null)
+        {
+            int buttonWidth = 300;
+            int buttonHeight = 80;
+            int spacing = 10;
+
+            int screenWidth = Screen.width;
+            int screenHeight = Screen.height;
+
+            int centerX = (screenWidth - buttonWidth) / 2;
+            int startY = (screenHeight - (buttonHeight * 3 + spacing * 2)) / 2;
+
+            Rect hostButtonRect = new Rect(centerX, startY, buttonWidth, buttonHeight);
+            Rect joinButtonRect = new Rect(centerX, startY + buttonHeight + spacing, buttonWidth, buttonHeight);
+            Rect quitButtonRect = new Rect(centerX, startY + (buttonHeight + spacing) * 2, buttonWidth, buttonHeight);
+
+            GUIStyle buttonStyle = new GUIStyle(GUI.skin.button)
+            {
+                fontSize = 24,
+                fontStyle = FontStyle.Bold
+            };
+
+            if (GUI.Button(hostButtonRect, "Crear Sala", buttonStyle))
+            {
                 InitializeField();
                 StartGame(GameMode.Host);
-           }
-           if (GUI.Button(new Rect(0, 40, 200, 40), "Join"))
-           {
+            }
+
+            if (GUI.Button(joinButtonRect, "Unirse a Sala", buttonStyle))
+            {
                 InitializeField();
                 StartGame(GameMode.Client);
-           }
-       }
-   }
+            }
+
+            if (GUI.Button(quitButtonRect, "Salir del Juego", buttonStyle))
+            {
+                Application.Quit();
+
+#if UNITY_EDITOR
+            
+            UnityEditor.EditorApplication.isPlaying = false;
+#endif
+            }
+        }
+    }
+
 
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token) 
     {
