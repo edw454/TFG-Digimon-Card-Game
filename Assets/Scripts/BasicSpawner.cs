@@ -149,7 +149,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         GameManager gameManager = FindObjectOfType<GameManager>();
         if (gameManager != null)
         {
-            gameManager.RPC_EndGame2(IsHostWinner);
+            gameManager.RPC_EndGame(IsHostWinner);
         }
     }
 
@@ -173,7 +173,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     private IEnumerator EndGameSequence(bool IsHostWinner)
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
 
 
         if (IsHostWinner)

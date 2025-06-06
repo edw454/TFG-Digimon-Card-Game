@@ -242,10 +242,13 @@ public class GameManager : NetworkBehaviour
         {
             for (int i = 0; i < HostSecurity.Length; i++)
             {
+
+                Debug.Log("Host security attack");
                 if (!HostSecurity[i].Equals(default(CardData)))
                 {
                     if (HostSecurity[i].Dp >= HostCards[AttackingCardIndex-1].Dp)
                     {
+                        Debug.Log("Host gana contra security");
                         RPC_ResetSlot(true, (AttackingCardIndex - 1));
                     }
                     HostSecurity.Set(i, default(CardData));
@@ -257,11 +260,12 @@ public class GameManager : NetworkBehaviour
         {
             for (int i = 0; i < ClientSecurity.Length; i++)
             {
-                Debug.Log("Cliente attack");
+                Debug.Log("Cliente security attack");
                 if (!ClientSecurity[i].Equals(default(CardData)))
                 {
                     if (ClientSecurity[i].Dp >= ClientCards[AttackingCardIndex - 1].Dp)
                     {
+                        Debug.Log("Client gana contra security");
                         RPC_ResetSlot(false, (AttackingCardIndex - 1));
                     }
                     ClientSecurity.Set(i, default(CardData));
@@ -271,7 +275,7 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    [Rpc(RpcSources.All, RpcTargets.All)]
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void RPC_NotifyEndGame(bool IsHostWinner)
     {
         EnemySlotCard.InPlay = false;
@@ -279,7 +283,7 @@ public class GameManager : NetworkBehaviour
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void RPC_EndGame2(bool IsHostWinner)
+    public void RPC_EndGame(bool IsHostWinner)
     {
         BasicSpawner.Instance.ReturnToLobby2(IsHostWinner);
     }

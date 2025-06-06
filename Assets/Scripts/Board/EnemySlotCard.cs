@@ -30,19 +30,16 @@ public class EnemySlotCard : MonoBehaviour, IPointerDownHandler
     void CardCreation( CardData cardData)
     {
         currentCardData = cardData;
-        //Cards enemyCard = new Cards("BT1-016", "Agumon", 1000, 3);
         EnemyCard = Instantiate(EnemyCardPrefab, transform);
         EnemyCard.transform.localScale = Vector3.one;
         RectTransform cardRect = EnemyCard.GetComponent<RectTransform>();
         cardRect.anchoredPosition = Vector2.zero;
         cardRect.localScale = Vector3.one;
 
-        // Configurar anclaje al centro (si no está ya configurado en el prefab)
         cardRect.anchorMin = new Vector2(0.5f, 0.5f);
         cardRect.anchorMax = new Vector2(0.5f, 0.5f);
         cardRect.pivot = new Vector2(0.5f, 0.5f);
 
-        // 3) Obtener el componente CardView y pasarle los datos
         CardEnemy view = EnemyCard.GetComponent<CardEnemy>();
         if (view != null)
         {
@@ -51,7 +48,6 @@ public class EnemySlotCard : MonoBehaviour, IPointerDownHandler
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (inPlay)

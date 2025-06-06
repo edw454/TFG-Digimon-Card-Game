@@ -37,8 +37,8 @@ public class DeckManager : MonoBehaviour
             {
                 Cards nextCard = deck[0];
                 deck.RemoveAt(0);
-
                 gameManager.RPC_AddHostSecurity(index, nextCard.GetCardData());
+                Debug.Log("añadida "+nextCard.NameCard);
             }
         }
         else
@@ -49,6 +49,7 @@ public class DeckManager : MonoBehaviour
                 deck.RemoveAt(0);
 
                 gameManager.RPC_AddClientSecurity(index, nextCard.GetCardData());
+                Debug.Log("añadida " + nextCard.NameCard);
             }
         }
     }

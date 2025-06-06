@@ -529,6 +529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef25d9d1aca35d74ba64afa002a6187a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SecurityCardPrefab: {fileID: 1026524466226261130, guid: 5bdfb843f9f70d543a2370e22b1fa4bc, type: 3}
 --- !u!1 &1024589280804951857
 GameObject:
   m_ObjectHideFlags: 0
