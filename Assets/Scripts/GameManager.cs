@@ -250,6 +250,7 @@ public class GameManager : NetworkBehaviour
                     {
                         Debug.Log("Host gana contra security");
                         RPC_ResetSlot(true, (AttackingCardIndex - 1));
+                        AttackingCardIndex = 0;
                     }
                     HostSecurity.Set(i, default(CardData));
                     return;
@@ -267,6 +268,7 @@ public class GameManager : NetworkBehaviour
                     {
                         Debug.Log("Client gana contra security");
                         RPC_ResetSlot(false, (AttackingCardIndex - 1));
+                        AttackingCardIndex = 0;
                     }
                     ClientSecurity.Set(i, default(CardData));
                     return;

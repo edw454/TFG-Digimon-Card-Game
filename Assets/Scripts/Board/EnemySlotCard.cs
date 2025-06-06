@@ -16,7 +16,74 @@ public class EnemySlotCard : MonoBehaviour, IPointerDownHandler
     private static bool selectEnemy;
     private static bool inPlay;
 
-    public static bool SelectEnemy {  get { return selectEnemy; } set { selectEnemy = value; } }
+    public GameObject panelPrefab; 
+    private GameObject currentPanel;
+    public static bool SelectEnemy 
+    {  
+        get { return selectEnemy; } 
+        set 
+        { 
+            selectEnemy = value;
+
+            foreach (var slot in FindObjectsOfType<EnemySlotCard>())
+            {
+                slot.HandleSelectEnemyChanged(value);
+            }
+        } 
+    }
+
+    private void HandleSelectEnemyChanged(bool value)
+    {
+        if (value && EnemyCard != null && currentPanel == null)
+        {
+            // Obtener el canvas raíz de la carta enemiga
+            Canvas rootCanvas = EnemyCard.GetComponentInParent<Canvas>();
+
+            if (rootCanvas == null)
+            {
+                rootCanvas = FindObjectOfType<Canvas>();
+            }
+
+            if (rootCanvas != null)
+            {
+                currentPanel = Instantiate(panelPrefab, rootCanvas.transform);
+
+                RectTransform panelRect = currentPanel.GetComponent<RectTransform>();
+                RectTransform cardRect = EnemyCard.GetComponent<RectTransform>();
+
+                Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(
+                    rootCanvas.worldCamera,
+                    cardRect.position
+                );
+
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    rootCanvas.GetComponent<RectTransform>(),
+                    screenPoint,
+                    rootCanvas.worldCamera,
+                    out Vector2 localPoint
+                );
+
+                panelRect.anchoredPosition = localPoint;
+                panelRect.localScale = Vector3.one;
+
+                currentPanel.transform.SetAsLastSibling();
+
+                // Ajustar el orden de renderizado
+                Canvas panelCanvasComponent = currentPanel.GetComponent<Canvas>();
+                if (panelCanvasComponent == null)
+                {
+                    panelCanvasComponent = currentPanel.AddComponent<Canvas>();
+                }
+                panelCanvasComponent.overrideSorting = true;
+                panelCanvasComponent.sortingOrder = 100; 
+            }
+        }
+        else if (!value && currentPanel != null)
+        {
+            Destroy(currentPanel);
+            currentPanel = null;
+        }
+    }
 
     public static bool InPlay { get { return inPlay; } set { inPlay = value; } }
 
@@ -122,7 +189,8 @@ public class EnemySlotCard : MonoBehaviour, IPointerDownHandler
         if (selectEnemy)
         {
             gameManager.RPC_AttackedCard(numEnemySlot);
-            selectEnemy = false;
+            SelectEnemy = false;
+            SecurityButton.SelectEnemy = false;
         }
     }
 }

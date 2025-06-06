@@ -530,6 +530,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SecurityCardPrefab: {fileID: 1026524466226261130, guid: 5bdfb843f9f70d543a2370e22b1fa4bc, type: 3}
+  panelPrefab: {fileID: 0}
 --- !u!1 &1024589280804951857
 GameObject:
   m_ObjectHideFlags: 0
@@ -786,6 +787,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyCardPrefab: {fileID: 5652684228158498745, guid: 62fe5483b3cbdcb4f9c50062f203a4d4, type: 3}
   numEnemySlot: 1
+  panelPrefab: {fileID: 5724669666728821871, guid: 97ec1bd7a87e2274cb2073249475d01f, type: 3}
 --- !u!1 &2071918567908790222
 GameObject:
   m_ObjectHideFlags: 0
@@ -1062,6 +1064,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyCardPrefab: {fileID: 5652684228158498745, guid: 62fe5483b3cbdcb4f9c50062f203a4d4, type: 3}
   numEnemySlot: 2
+  panelPrefab: {fileID: 5724669666728821871, guid: 97ec1bd7a87e2274cb2073249475d01f, type: 3}
 --- !u!1 &3141466009045546772
 GameObject:
   m_ObjectHideFlags: 0
@@ -1152,6 +1155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyCardPrefab: {fileID: 5652684228158498745, guid: 62fe5483b3cbdcb4f9c50062f203a4d4, type: 3}
   numEnemySlot: 3
+  panelPrefab: {fileID: 5724669666728821871, guid: 97ec1bd7a87e2274cb2073249475d01f, type: 3}
 --- !u!1 &4080416296805224102
 GameObject:
   m_ObjectHideFlags: 0
@@ -2816,6 +2820,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyCardPrefab: {fileID: 5652684228158498745, guid: 62fe5483b3cbdcb4f9c50062f203a4d4, type: 3}
   numEnemySlot: 4
+  panelPrefab: {fileID: 5724669666728821871, guid: 97ec1bd7a87e2274cb2073249475d01f, type: 3}
 --- !u!1 &8988864339477602611
 GameObject:
   m_ObjectHideFlags: 0
@@ -2906,3 +2911,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyCardPrefab: {fileID: 5652684228158498745, guid: 62fe5483b3cbdcb4f9c50062f203a4d4, type: 3}
   numEnemySlot: 5
+  panelPrefab: {fileID: 5724669666728821871, guid: 97ec1bd7a87e2274cb2073249475d01f, type: 3}
