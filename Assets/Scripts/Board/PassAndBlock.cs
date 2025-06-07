@@ -10,6 +10,7 @@ public class PassAndBlock : MonoBehaviour
     [SerializeField] private Color passButtonColor;
     [SerializeField] private Color blockerButtonColor;
     [SerializeField] private Color nullButtonColor;
+    [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private Button button;
 
     private GameManager gameManager;
@@ -65,11 +66,8 @@ public class PassAndBlock : MonoBehaviour
             button.onClick.AddListener(OnNullButton);
         }
 
-        Text buttonText = button.GetComponentInChildren<Text>();
-        if (buttonText != null)
-        {
-            buttonText.text = isLocalTurn ? "Pasar Turno" : "Bloqueado";
-        }
+        if (text != null)
+            text.text = isLocalTurn ? "Pasar Turno" : "Bloqueado";
 
     }
 }

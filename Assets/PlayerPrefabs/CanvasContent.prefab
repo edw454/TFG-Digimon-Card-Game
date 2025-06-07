@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Button
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: b78e32247e753b0439ff992257ec9817, type: 2}
+  m_sharedMaterial: {fileID: 6343386689331899187, guid: b78e32247e753b0439ff992257ec9817, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -271,6 +271,7 @@ MonoBehaviour:
   passButtonColor: {r: 1, g: 0.498989, b: 0.050943315, a: 1}
   blockerButtonColor: {r: 0.108999595, g: 0.9169811, b: 0.8776493, a: 1}
   nullButtonColor: {r: 0.6226415, g: 0.6226415, b: 0.6226415, a: 1}
+  text: {fileID: 3017742434989943307}
   button: {fileID: 7570764678323446714}
 --- !u!1 &496615088268785472
 GameObject:
@@ -530,7 +531,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SecurityCardPrefab: {fileID: 1026524466226261130, guid: 5bdfb843f9f70d543a2370e22b1fa4bc, type: 3}
-  panelPrefab: {fileID: 0}
 --- !u!1 &1024589280804951857
 GameObject:
   m_ObjectHideFlags: 0
