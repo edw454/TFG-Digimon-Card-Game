@@ -11,17 +11,13 @@ public class BeginGame : MonoBehaviour
     public float blinkSpeed = 0.5f;
 
     [SerializeField] private Color originalColor;
-    // Start is called before the first frame update
+
     void Start()
     {
         if (text == null)
             text = GetComponent<TextMeshProUGUI>();
 
         originalColor = text.color;
-        //if (text == null)
-        //    text = GetComponent<TextMeshProUGUI>();
-
-        //StartCoroutine(Blink());
     }
 
     System.Collections.IEnumerator Blink()
@@ -33,7 +29,6 @@ public class BeginGame : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         float alpha = Mathf.PingPong(Time.time * fadeSpeed, 1f);

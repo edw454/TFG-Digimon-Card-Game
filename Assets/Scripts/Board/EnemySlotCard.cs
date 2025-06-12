@@ -161,7 +161,11 @@ public class EnemySlotCard : MonoBehaviour, IPointerDownHandler
         {
             if (IsCardDataDefault(gameManager.ClientCards[arrayIndex]))
             {
-                Destroy(EnemyCard);
+                if (EnemyCard != null)
+                {
+                    EnemyCard.GetComponent<CardEnemy>().ShrinkAndDestroy();
+                }
+                //Destroy(EnemyCard);
                 EnemyCard = null;
                 currentCardData = default(CardData);
             }
@@ -170,7 +174,11 @@ public class EnemySlotCard : MonoBehaviour, IPointerDownHandler
         {
             if (IsCardDataDefault(gameManager.HostCards[arrayIndex]))
             {
-                Destroy(EnemyCard);
+                if (EnemyCard != null)
+                {
+                    EnemyCard.GetComponent<CardEnemy>().ShrinkAndDestroy();
+                }
+                //Destroy(EnemyCard);
                 EnemyCard = null;
                 currentCardData = default(CardData);
             }

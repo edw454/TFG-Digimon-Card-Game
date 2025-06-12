@@ -438,7 +438,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numSlot: 4
   imagePrefab: {fileID: 0}
-  hand: {fileID: 0}
   buttonPrefab: {fileID: 7276153583841671838, guid: 8b8844975d7c5ad4f977ce00f5fc20d7, type: 3}
   buttonOffset: {x: -10, y: -10}
 --- !u!1 &611135327728302004
@@ -878,7 +877,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numSlot: 5
   imagePrefab: {fileID: 0}
-  hand: {fileID: 0}
   buttonPrefab: {fileID: 7276153583841671838, guid: 8b8844975d7c5ad4f977ce00f5fc20d7, type: 3}
   buttonOffset: {x: -10, y: -10}
 --- !u!1 &2218862097792648131
@@ -971,7 +969,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numSlot: 1
   imagePrefab: {fileID: 0}
-  hand: {fileID: 0}
   buttonPrefab: {fileID: 7276153583841671838, guid: 8b8844975d7c5ad4f977ce00f5fc20d7, type: 3}
   buttonOffset: {x: -10, y: -10}
 --- !u!1 &2251773243876803030
@@ -1321,7 +1318,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numSlot: 2
   imagePrefab: {fileID: 0}
-  hand: {fileID: 0}
   buttonPrefab: {fileID: 7276153583841671838, guid: 8b8844975d7c5ad4f977ce00f5fc20d7, type: 3}
   buttonOffset: {x: -10, y: -10}
 --- !u!1 &4572568996652222220
@@ -1800,6 +1796,7 @@ GameObject:
   - component: {fileID: 6504639688158257265}
   - component: {fileID: 5889062622549436363}
   - component: {fileID: 2259666320867806777}
+  - component: {fileID: 1247721665071359021}
   m_Layer: 5
   m_Name: ButtonTrash
   m_TagString: Untagged
@@ -1865,6 +1862,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1247721665071359021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6438896247121373798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e73012624eb0d064abb13a0d53dd9bbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  counterPrefab: {fileID: 3072988458943805519, guid: b43fef45496bda740b30e4113ac71d66, type: 3}
 --- !u!1 &6703466758501633323
 GameObject:
   m_ObjectHideFlags: 0
@@ -2086,6 +2096,7 @@ GameObject:
   - component: {fileID: 6673678099841170147}
   - component: {fileID: 7557911094876757099}
   - component: {fileID: 6333847945155239960}
+  - component: {fileID: 7424552713839405490}
   m_Layer: 5
   m_Name: OppoonentButtonTrash
   m_TagString: Untagged
@@ -2151,6 +2162,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7424552713839405490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7138673080694931671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f748e632e42d6e841add711dea6197f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  counterPrefab: {fileID: 3072988458943805519, guid: b43fef45496bda740b30e4113ac71d66, type: 3}
 --- !u!1 &7784975653009757312
 GameObject:
   m_ObjectHideFlags: 0
@@ -2605,7 +2629,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numSlot: 3
   imagePrefab: {fileID: 0}
-  hand: {fileID: 0}
   buttonPrefab: {fileID: 7276153583841671838, guid: 8b8844975d7c5ad4f977ce00f5fc20d7, type: 3}
   buttonOffset: {x: -10, y: -10}
 --- !u!1 &8596359455819437814
@@ -2669,7 +2692,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.31764707}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

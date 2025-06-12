@@ -12,7 +12,6 @@ public class SlotCard : MonoBehaviour, IDropHandler, IPointerDownHandler
     public int numSlot;
     private Canvas canvas;
     public GameObject imagePrefab;
-    public Transform hand;
 
     private CardsActions cardAction;
     private CardData playedCardData;
@@ -43,26 +42,21 @@ public class SlotCard : MonoBehaviour, IDropHandler, IPointerDownHandler
         if (gameManager == null)
             InitializeGameManager();
 
-        // Verificar ANTES de procesar la carta
         if (!IsMyTurn())
-        { // <- Nueva función IsMyTurn()
+        { 
             Debug.Log("No es tu turno o no puedes jugar.");
             return;
         }
 
-        //Debug.Log("OnDrop");
         if (eventData.pointerDrag != null)
         {
-            //get properties CardsActions and RectTransform
             RectTransform droppedRect = eventData.pointerDrag.GetComponent<RectTransform>();
             cardAction = eventData.pointerDrag.GetComponent<CardsActions>();
-            //Card in play
 
             playedCardData = cardAction.CardData.GetCardData();
             cardAction.InPlay = true;
             int cost = cardAction.CardData.Cost;
 
-            // Lógica de suma/resta según jugador
             if (gameManager.Runner.IsServer)
             {
                 gameManager.ModifyMemoryRpc(cost);
@@ -99,7 +93,6 @@ public class SlotCard : MonoBehaviour, IDropHandler, IPointerDownHandler
 
     private bool IsMyTurn()
     {
-        // True si el jugador local es el host y TurnHost es true, o es cliente y TurnHost es false
         return (gameManager.Runner.IsServer && gameManager.TurnHost) ||
                (!gameManager.Runner.IsServer && !gameManager.TurnHost);
     }
@@ -171,8 +164,7 @@ public class SlotCard : MonoBehaviour, IDropHandler, IPointerDownHandler
         int arrayIndex = numSlot - 1;
         bool isServer = gameManager.Runner.IsServer;
 
-        // 1. Esperar a que los datos en GameManager se actualicen con la nueva carta
-        float timeout = 2f; // Tiempo máximo de espera (segundos)
+        float timeout = 2f; 
         float startTime = Time.time;
         bool dataUpdated = false;
 
@@ -208,7 +200,8 @@ public class SlotCard : MonoBehaviour, IDropHandler, IPointerDownHandler
 
             if (IsCardDataDefault(currentData))
             {
-                Destroy(cardAction.gameObject);
+                cardAction.ShrinkAndDestroy();
+                //Destroy(cardAction.gameObject);
                 cardAction = null;
                 playedCardData = default(CardData);
                 yield break;
