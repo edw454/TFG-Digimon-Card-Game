@@ -123,65 +123,65 @@ public class EnemySlotCard : MonoBehaviour, IPointerDownHandler
                 InitializeGameManager();
             else
             {
-                if (IsCardDataDefault(currentCardData))
-                {
-                    PlayEnemyCard();
-                }
-                else
-                {
-                    DeleteEnemyCard();
-                }
+                CheckCardChange();
             }
-        }  
+        }
+    }
+
+    private void CheckCardChange()
+    {
+        int arrayIndex = numEnemySlot - 1;
+        CardData newCardData = GetCurrentCardData(arrayIndex);
+
+        // Si no hay carta actual pero hay una nueva en el array
+        if (IsCardDataDefault(currentCardData) && !IsCardDataDefault(newCardData))
+        {
+            PlayEnemyCard();
+        }
+        // Si hay carta actual pero ahora el array está vacío
+        else if (!IsCardDataDefault(currentCardData) && IsCardDataDefault(newCardData))
+        {
+            DeleteEnemyCard();
+        }
+        // Si hay carta actual y nueva carta en el array, y son diferentes
+        else if (!IsCardDataDefault(currentCardData) && !IsCardDataDefault(newCardData) &&
+                 !currentCardData.Equals(newCardData))
+        {
+            DeleteEnemyCard();
+            PlayEnemyCard();
+        }
+    }
+
+    private CardData GetCurrentCardData(int arrayIndex)
+    {
+        if (gameManager.Runner.IsServer)
+        {
+            return gameManager.ClientCards[arrayIndex];
+        }
+        else
+        {
+            return gameManager.HostCards[arrayIndex];
+        }
     }
 
     public void PlayEnemyCard()
     {
         int arrayIndex = numEnemySlot - 1;
-        if (gameManager.Runner.IsServer)
+        CardData cardData = GetCurrentCardData(arrayIndex);
+
+        if (!IsCardDataDefault(cardData))
         {
-            if (!IsCardDataDefault(gameManager.ClientCards[arrayIndex]))
-            {
-                CardCreation(gameManager.ClientCards[arrayIndex]);
-            }
-        }
-        else
-        {
-            if (!IsCardDataDefault(gameManager.HostCards[arrayIndex]))
-            {
-                CardCreation(gameManager.HostCards[arrayIndex]);
-            }
+            CardCreation(cardData);
         }
     }
 
     public void DeleteEnemyCard()
     {
-        int arrayIndex = numEnemySlot - 1;
-        if (gameManager.Runner.IsServer)
+        if (EnemyCard != null)
         {
-            if (IsCardDataDefault(gameManager.ClientCards[arrayIndex]))
-            {
-                if (EnemyCard != null)
-                {
-                    EnemyCard.GetComponent<CardEnemy>().ShrinkAndDestroy();
-                }
-                //Destroy(EnemyCard);
-                EnemyCard = null;
-                currentCardData = default(CardData);
-            }
-        }
-        else
-        {
-            if (IsCardDataDefault(gameManager.HostCards[arrayIndex]))
-            {
-                if (EnemyCard != null)
-                {
-                    EnemyCard.GetComponent<CardEnemy>().ShrinkAndDestroy();
-                }
-                //Destroy(EnemyCard);
-                EnemyCard = null;
-                currentCardData = default(CardData);
-            }
+            EnemyCard.GetComponent<CardEnemy>().ShrinkAndDestroy();
+            EnemyCard = null;
+            currentCardData = default(CardData);
         }
     }
 

@@ -13,7 +13,7 @@ public class SlotCard : MonoBehaviour, IDropHandler, IPointerDownHandler
     private Canvas canvas;
     public GameObject imagePrefab;
 
-    private CardsActions cardAction;
+    private CardsActions cardInSlot;
     private CardData playedCardData;
     private static GameObject currentButton;
     private static GameManager gameManager;
@@ -38,12 +38,11 @@ public class SlotCard : MonoBehaviour, IDropHandler, IPointerDownHandler
 
     public void OnDrop(PointerEventData eventData)
     {
-
         if (gameManager == null)
             InitializeGameManager();
 
         if (!IsMyTurn())
-        { 
+        {
             Debug.Log("No es tu turno o no puedes jugar.");
             return;
         }
@@ -51,23 +50,66 @@ public class SlotCard : MonoBehaviour, IDropHandler, IPointerDownHandler
         if (eventData.pointerDrag != null)
         {
             RectTransform droppedRect = eventData.pointerDrag.GetComponent<RectTransform>();
-            cardAction = eventData.pointerDrag.GetComponent<CardsActions>();
+            CardsActions cardAction = eventData.pointerDrag.GetComponent<CardsActions>();
+            Cards droppedCard = cardAction.CardData;
+            Digimon droppedDigimon = droppedCard as Digimon;
 
-            playedCardData = cardAction.CardData.GetCardData();
+            Cards existingCard = null;
+            Digimon existingDigimon = null;
+            if (transform.childCount > 0)
+            {
+                Transform existingChild = transform.GetChild(0);
+                CardsActions existingCardAction = existingChild.GetComponent<CardsActions>();
+                if (existingCardAction != null)
+                {
+                    existingCard = existingCardAction.CardData;
+                    existingDigimon = existingCard as Digimon;
+                }
+            }
+
+            // Comprobar si es una evolución válida
+            bool isEvolution = false;
+            if (droppedDigimon != null && existingDigimon != null)
+            {
+                if (droppedDigimon.Level == existingDigimon.Level + 1)
+                {
+                    isEvolution = true; 
+                }
+                else
+                { 
+                    return;
+                }
+            }
+
             cardAction.InPlay = true;
-            int cost = cardAction.CardData.Cost;
+            playedCardData = cardAction.CardData.GetCardData();
+
+            int memoryAdjustment = 0;
+            int costToUse = droppedCard.Cost; // Por defecto usa el coste normal
+
+            if (isEvolution)
+            {
+                // Usar el costo de evolución en lugar del coste normal
+                costToUse = droppedDigimon.EvoCost;
+
+                // Destruir la carta existente
+                Destroy(transform.GetChild(0).gameObject);
+                Debug.Log("Evolución realizada: " + existingDigimon.NameCard + " -> " + droppedDigimon.NameCard);
+            }
+
+            cardInSlot = cardAction;
+
+            memoryAdjustment = costToUse;
 
             if (gameManager.Runner.IsServer)
             {
-                gameManager.ModifyMemoryRpc(cost);
-
-                gameManager.RPC_AddHostCard(numSlot-1, playedCardData);
+                gameManager.ModifyMemoryRpc(memoryAdjustment);
+                gameManager.RPC_AddHostCard(numSlot - 1, playedCardData);
             }
             else
             {
-                gameManager.ModifyMemoryRpc(-cost);
-
-                gameManager.RPC_AddClientCard(numSlot-1, playedCardData);
+                gameManager.ModifyMemoryRpc(-memoryAdjustment);
+                gameManager.RPC_AddClientCard(numSlot - 1, playedCardData);
             }
 
             if (canvas != null)
@@ -101,7 +143,7 @@ public class SlotCard : MonoBehaviour, IDropHandler, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if ( cardAction != null ) 
+        if (cardInSlot != null ) 
         {
             if (currentButton == null)
             {
@@ -200,9 +242,9 @@ public class SlotCard : MonoBehaviour, IDropHandler, IPointerDownHandler
 
             if (IsCardDataDefault(currentData))
             {
-                cardAction.ShrinkAndDestroy();
+                cardInSlot.ShrinkAndDestroy();
                 //Destroy(cardAction.gameObject);
-                cardAction = null;
+                cardInSlot = null;
                 playedCardData = default(CardData);
                 yield break;
             }

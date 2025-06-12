@@ -64,20 +64,20 @@ public class DeckManager : MonoBehaviour
     }
     void InicializarDeck()
     {
-        AddDigimon("BT1-009", "Monodramon", 2, CardColor.red, 3000, 3, 4);
-        AddDigimon("BT1-013", "Muchomon", 3, CardColor.red, 5000, 3, 4);
-        AddDigimon("BT1-014", "Kokatorimon", 3, CardColor.red, 4000, 4, 4);
-        AddDigimon("BT1-019", "DarkTyrannomon", 6, CardColor.red, 6000, 4, 4);
-        AddDigimon("BT1-020", "Groundramon", 5, CardColor.red, 6000, 5, 4);
-        AddDigimon("BT1-026", "Breakdramon", 12, CardColor.red, 11000, 5, 4);
-        AddDigimon("BT1-024", "MetalTyrannomon", 7, CardColor.red, 10000, 6, 4);
+        AddDigimon("BT1-009", "Monodramon", 2, CardColor.red, 3000, 3, 0, 4);
+        AddDigimon("BT1-013", "Muchomon", 3, CardColor.red, 5000, 3, 0, 4);
+        AddDigimon("BT1-014", "Kokatorimon", 3, CardColor.red, 4000, 4, 2, 4);
+        AddDigimon("BT1-019", "DarkTyrannomon", 6, CardColor.red, 6000, 4, 1, 4);
+        AddDigimon("BT1-020", "Groundramon", 5, CardColor.red, 6000, 5, 2, 4);
+        AddDigimon("BT1-026", "Breakdramon", 12, CardColor.red, 11000, 6, 2, 4);
+        AddDigimon("BT1-024", "MetalTyrannomon", 7, CardColor.red, 10000, 5, 3, 4);
     }
 
-    void AddDigimon(string id, string nombre, int costo, CardColor color,int poder, int level, int cantidad)
+    void AddDigimon(string id, string nombre, int costo, CardColor color,int poder, int level, int evoCost, int cantidad)
     {
         for (int i = 0; i < cantidad; i++)
         {
-            deck.Add(new Digimon(id, nombre, costo, color, poder, level));
+            deck.Add(new Digimon(id, nombre, costo, color, poder, evoCost, level));
         }
     }
 
